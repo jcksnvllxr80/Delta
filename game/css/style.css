@@ -1,0 +1,26 @@
+/* ===== Delta - Game Styles ===== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: monospace;
+    overflow: hidden;
+}
+
+#game {
+    /* 256x224 native scaled 3x = 768x672 display */
+    width: 768px;
+    height: 672px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    border: 2px solid #333;
+}
