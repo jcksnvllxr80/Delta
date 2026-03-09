@@ -53,6 +53,11 @@ const Game = {
         Items.reset();
         Items.loadScreenItems();
 
+        // start music (user interaction may be required in some browsers)
+        if (window.Music) {
+            try { Music.play(); } catch(e) {}
+        }
+
         this.state = STATE.PLAYING;
     },
 

@@ -24,6 +24,7 @@ game/
 - **12 overworld screens** across mountains, forests, village, riverside, ruins, and a sacred grove
 - **1 complete dungeon** (5 rooms) with enemies, a key puzzle, a locked item room, and a boss fight
 - **Real-time combat** - sword attacks (Z/Space), bombs (X) as secondary item
+- **Background music** using Web Audio
 - **Screen transitions** with Zelda-style sliding animation
 - **4 enemy types** + 1 boss: Slime, Octorok (shoots projectiles), Bat, Darknut (chases), and a dragon boss
 - **Progression loop**: Explore overworld → Find dungeon → Get bombs → Defeat boss → Use bombs on cracked walls → Reach the Sacred Grove (victory)
@@ -40,6 +41,8 @@ game/
 ## How to Play Locally
 
 To play Delta in your browser, you need to serve the files using a local web server. The easiest way is with Python:
+
+> Music starts automatically when the game begins; mute the browser tab if you prefer silence.
 
 1. Open a terminal and navigate to the `game` directory:
 
