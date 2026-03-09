@@ -152,7 +152,4 @@ Players remember strange locations and later return with the correct tool, creat
 
 ---
 
-If you want, I can also show you something extremely useful:
-
-**The hidden design rule Nintendo used for the original Zelda dungeon progression that makes the loop addictive.**
-It’s a simple pattern that you can directly use in *Delta*.
+The design rule is a simple dungeon progression pattern that makes the loop addictive.
