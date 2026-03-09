@@ -5,10 +5,14 @@
 const Input = {
     _keys: {},
     _prev: {},
+    _lastAxis: null, // 'x' or 'y'
 
     init() {
         window.addEventListener('keydown', (e) => {
             this._keys[e.code] = true;
+            // record axis of directional input
+            if (['ArrowUp','ArrowDown','KeyW','KeyS'].includes(e.code)) this._lastAxis = 'y';
+            if (['ArrowLeft','ArrowRight','KeyA','KeyD'].includes(e.code)) this._lastAxis = 'x';
             // Prevent scrolling from arrow keys / space
             if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code)) {
                 e.preventDefault();

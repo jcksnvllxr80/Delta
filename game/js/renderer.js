@@ -210,8 +210,8 @@ const Renderer = {
         const x = Math.round(p.x);
         const y = Math.round(p.y) + HUD_H;
 
-        // Flicker when invulnerable
-        if (p.invulnTimer > 0 && Math.floor(p.invulnTimer / 3) % 2 === 0) {
+        // Flicker when currently invulnerable
+        if (Date.now() < p.invulnExpires && Math.floor((p.invulnExpires - Date.now()) / 50) % 2 === 0) {
             return;
         }
 

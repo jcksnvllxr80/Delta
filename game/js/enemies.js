@@ -303,6 +303,9 @@ const Enemies = {
         if (enemy.hp <= 0) {
             enemy.active = false;
             this._onDeath(enemy);
+            // show death pop and sound
+            if (window.Effects) Effects.spawnDeath(enemy.x + enemy.w/2, enemy.y + enemy.h/2);
+            if (window.SFX) SFX.play('enemy_die');
         }
     },
 

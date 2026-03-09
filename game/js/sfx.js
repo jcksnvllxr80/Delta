@@ -15,16 +15,22 @@ const SFX = {
     async load(name) {
         if (!this.context) this.init();
         if (this.buffers[name]) return this.buffers[name];
-        const url = `sfx/${name}.mp3`;
-        try {
-            const resp = await fetch(url);
-            const arr = await resp.arrayBuffer();
-            const buf = await this.context.decodeAudioData(arr);
-            this.buffers[name] = buf;
-            return buf;
-        } catch (e) {
-            console.warn('SFX load failed', name, e);
+        // try common extensions in order
+        const exts = ['mp3','ogg','wav'];
+        for (const ext of exts) {
+            const url = `sfx/${name}.${ext}`;
+            try {
+                const resp = await fetch(url);
+                if (!resp.ok) continue;
+                const arr = await resp.arrayBuffer();
+                const buf = await this.context.decodeAudioData(arr);
+                this.buffers[name] = buf;
+                return buf;
+            } catch (e) {
+                // try next extension
+            }
         }
+        console.warn('SFX load failed for', name);
     },
 
     async play(name) {

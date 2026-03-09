@@ -65,6 +65,7 @@ const Game = {
     showMessage(text) {
         this.messageText = text;
         this.state = STATE.MESSAGE;
+        if (window.SFX) SFX.play('message');
     },
 
     // ===============================================================
@@ -159,7 +160,7 @@ const Game = {
         Items.update();
 
         // Player damage from enemies
-        if (Player.invulnTimer <= 0 && Player.hurtTimer <= 0 && Player.attackTimer <= 0) {
+        if (Date.now() >= Player.invulnExpires && Player.hurtTimer <= 0 && Player.attackTimer <= 0) {
             const enemy = Enemies.checkContact(
                 Player.x + Player.hbOx,
                 Player.y + Player.hbOy,
@@ -181,7 +182,7 @@ const Game = {
         }
 
         // Player damage from enemy projectiles
-        if (Player.invulnTimer <= 0 && Player.hurtTimer <= 0) {
+        if (Date.now() >= Player.invulnExpires && Player.hurtTimer <= 0) {
             if (Items.checkProjectileHit(
                 Player.x + Player.hbOx,
                 Player.y + Player.hbOy,
@@ -200,11 +201,17 @@ const Game = {
             }
         }
 
+        // update effects
+        if (window.Effects) Effects.update();
+
         // Item pickups
         const pickup = Items.checkPlayerPickup(Player);
         if (pickup) {
             Player.collectPickup(pickup);
-            if (window.SFX) SFX.play('pickup');
+            if (window.SFX) {
+                if (pickup.type === 'currency') SFX.play('currency');
+                else SFX.play('pickup');
+            }
         }
 
         // Check player death
@@ -216,6 +223,7 @@ const Game = {
 
         // Render
         this._renderGame();
+        if (window.Effects) Effects.draw(Renderer.ctx);
     },
 
     _updateTransition() {

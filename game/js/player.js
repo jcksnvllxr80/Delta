@@ -19,7 +19,8 @@ const Player = {
 
     // Timers
     attackTimer: 0,
-    invulnTimer: 0,
+    // invulnerability expires timestamp (ms since epoch)
+    invulnExpires: 0,
     hurtTimer: 0,
     knockDx: 0,
     knockDy: 0,
@@ -48,13 +49,13 @@ const Player = {
         this.dir = DIR.DOWN;
         this.state = 'idle';
         this.attackTimer = 0;
-        this.invulnTimer = 0;
+        this.invulnExpires = 0;
     },
 
     /** Main update - called each frame during PLAYING state */
     update() {
         // Invulnerability countdown
-        if (this.invulnTimer > 0) this.invulnTimer--;
+        // nothing needed, expiration is time-based
 
         // Hurt state (knockback)
         if (this.hurtTimer > 0) {
@@ -118,15 +119,18 @@ const Player = {
         if (Input.isDown('ArrowLeft')  || Input.isDown('KeyA')) { dx = -PLAYER_SPEED; this.dir = DIR.LEFT; }
         if (Input.isDown('ArrowRight') || Input.isDown('KeyD')) { dx = PLAYER_SPEED;  this.dir = DIR.RIGHT; }
 
-        // Prioritize last direction pressed (no diagonal)
+        // if both axes held we allow diagonal motion but adjust facing
         if (dx !== 0 && dy !== 0) {
-            // Keep only the latest axis
-            if (Input.isPressed('ArrowUp') || Input.isPressed('ArrowDown') ||
-                Input.isPressed('KeyW') || Input.isPressed('KeyS')) {
-                dx = 0;
-            } else {
-                dy = 0;
+            // set direction based on last axis pressed so sprite faces correctly
+            if (Input._lastAxis === 'x') {
+                this.dir = dx > 0 ? DIR.RIGHT : DIR.LEFT;
+            } else if (Input._lastAxis === 'y') {
+                this.dir = dy > 0 ? DIR.DOWN : DIR.UP;
             }
+            // normalize diagonal movement so speed is uniform
+            const factor = 1 / Math.sqrt(2);
+            dx *= factor;
+            dy *= factor;
         }
 
         if (dx !== 0 || dy !== 0) {
@@ -165,10 +169,12 @@ const Player = {
                 if (front.tile === TL.DOOR_LOCKED && this.keys > 0) {
                     this.keys--;
                     this._openAllDoorsOfType(TL.DOOR_LOCKED);
+                    if (window.SFX) SFX.play('door');
                     Game.showMessage('Door opened!');
                 }
                 if (front.tile === TL.BOSS_DOOR && this.hasBossKey) {
                     this._openAllDoorsOfType(TL.BOSS_DOOR);
+                    if (window.SFX) SFX.play('door');
                     Game.showMessage('Boss door opened!');
                 }
             }
@@ -292,6 +298,7 @@ const Player = {
         if (frontTile.tile === TL.DOOR_LOCKED && this.keys > 0) {
             this.keys--;
             this._openAllDoorsOfType(TL.DOOR_LOCKED);
+            if (window.SFX) SFX.play('door');
             Game.showMessage('Door opened!');
             return 'door_opened';
         }
@@ -299,6 +306,7 @@ const Player = {
         // Try boss door with boss key
         if (frontTile.tile === TL.BOSS_DOOR && this.hasBossKey) {
             this._openAllDoorsOfType(TL.BOSS_DOOR);
+            if (window.SFX) SFX.play('door');
             Game.showMessage('Boss door opened!');
             return 'boss_door_opened';
         }
@@ -355,10 +363,11 @@ const Player = {
 
     /** Take damage from an enemy or hazard */
     takeDamage(amount, fromDir) {
-        if (this.invulnTimer > 0) return;
+        const now = Date.now();
+        if (now < this.invulnExpires) return;
 
         this.hp -= amount;
-        this.invulnTimer = INVULN_TIME;
+        this.invulnExpires = now + 1000; // one second later
         this.hurtTimer = KNOCKBACK_FRAMES;
         this.state = 'hurt';
 
@@ -372,6 +381,7 @@ const Player = {
             default:        this.knockDx = 0; this.knockDy = -kb; break;
         }
 
+        if (window.SFX) SFX.play('player_hit');
         if (this.hp <= 0) {
             this.hp = 0;
         }
@@ -404,6 +414,10 @@ const Player = {
                 this.hasBombs = true;
                 this.bombCount = 8;
                 Game.showMessage('You found BOMBS!\nPress X to use.');
+                break;
+            case 'currency':
+                // simple counter; no gameplay effect yet
+                this.currency = (this.currency || 0) + 1;
                 break;
         }
     },

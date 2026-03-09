@@ -25,7 +25,7 @@ game/
 - **1 complete dungeon** (5 rooms) with enemies, a key puzzle, a locked item room, and a boss fight
 - **Real-time combat** - sword attacks (Z/Space), bombs (X) as secondary item
 - **Background music** that changes with the title screen, overworld, and dungeon
-- **Sound effects** for sword swings and item pickups (customizable via `game/sfx/`)
+- **Sound effects** for sword swings, general pickups, and special currency noise (customizable via `game/sfx/`)
 - **Screen transitions** with Zelda-style sliding animation
 - **4 enemy types** + 1 boss: Slime, Octorok (shoots projectiles), Bat, Darknut (chases), and a dragon boss
 - **Progression loop**: Explore overworld → Find dungeon → Get bombs → Defeat boss → Use bombs on cracked walls → Reach the Sacred Grove (victory)
@@ -47,7 +47,7 @@ To play Delta in your browser, you need to serve the files using a local web ser
 >
 > **Custom music:** put `intro.mp3`, `overworld.mp3`, and `dungeon.mp3` into the `game/music/` folder and they will be loaded automatically. You can also use OGG files if you modify `music.js` accordingly.
 >
-> **Sound effects:** drop `sword.mp3` and `pickup.mp3` into `game/sfx/`; the engine plays them when you attack or pick up items.
+> **Sound effects:** drop `sword.mp3`, `pickup.mp3`, `currency.mp3`, `door.mp3`, `enemy_die.mp3`, `player_hit.mp3` and `message.mp3` (or `.ogg`, `.wav`) into `game/sfx/`; the engine plays the appropriate sound for sword swings, item pickups, currency collection, door opening, enemy deaths, player damage, and displayed messages. It tries mp3 then ogg then wav automatically.
 
 1. Open a terminal and navigate to the `game` directory:
 
