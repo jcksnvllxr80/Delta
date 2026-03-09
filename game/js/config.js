@@ -18,7 +18,7 @@ const WORLD_W = 4;
 const WORLD_H = 3;
 
 // ---- Player ----
-const PLAYER_SPEED = 0.6;
+const PLAYER_SPEED = 0.4;
 const PLAYER_MAX_HP = 6;
 const ATTACK_DURATION = 12;
 const INVULN_TIME = 60;

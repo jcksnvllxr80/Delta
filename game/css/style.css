@@ -6,21 +6,38 @@
     box-sizing: border-box;
 }
 
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
 body {
     background: #111;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
     font-family: monospace;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
 }
 
 #game {
-    /* 256x224 native scaled 3x = 768x672 display */
-    width: 768px;
-    height: 672px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
-    border: 2px solid #333;
+    border: none;
+    background: #000;
+    outline: none;
+}
+
+.hud, .minimap, .dialog, .title {
+    font-size: 2.2vw;
+    text-shadow: 2px 2px 0 #000, 0 0 4px #000;
+    letter-spacing: 1px;
 }

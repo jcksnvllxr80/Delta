@@ -786,11 +786,15 @@ const Renderer = {
     //  TEXT RENDERING (simple pixel font)
     // ===============================================================
 
-    /** Draw text using canvas fillText (simple monospace) */
+    /** Draw text using canvas fillText (larger monospace, with outline for legibility) */
     _drawText(ctx, x, y, text, scale) {
         ctx.save();
-        ctx.font = (6 * (scale || 1)) + 'px monospace';
+        const baseSize = 14; // Increased from 6 for better readability
+        ctx.font = (baseSize * (scale || 1)) + 'px monospace';
         ctx.textBaseline = 'top';
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#000';
+        ctx.strokeText(text, x, y);
         ctx.fillText(text, x, y);
         ctx.restore();
     },

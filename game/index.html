@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delta 🔺</title>
+    <title>Delta - HTML5 Zelda-like Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <canvas id="game" width="256" height="224"></canvas>
 
     <!-- Scripts loaded in dependency order -->
+    <button id="fullscreen-btn" style="position:fixed;top:10px;right:10px;z-index:10;font-size:1.2em;">Fullscreen</button>
     <script src="js/config.js"></script>
     <script src="js/input.js"></script>
     <script src="js/world.js"></script>
@@ -18,5 +19,15 @@
     <script src="js/player.js"></script>
     <script src="js/renderer.js"></script>
     <script src="js/main.js"></script>
+    <script>
+    // Fullscreen button logic
+    document.getElementById('fullscreen-btn').onclick = function() {
+        const canvas = document.getElementById('game');
+        if (canvas.requestFullscreen) canvas.requestFullscreen();
+        else if (canvas.webkitRequestFullscreen) canvas.webkitRequestFullscreen();
+        else if (canvas.mozRequestFullScreen) canvas.mozRequestFullScreen();
+        else if (canvas.msRequestFullscreen) canvas.msRequestFullscreen();
+    };
+    </script>
 </body>
 </html>
