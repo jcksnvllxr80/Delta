@@ -52,7 +52,7 @@ const Enemies = {
                 break;
             case ENEMY.BAT:
                 base.hp = 1;
-                base.speed = 1.0;
+                base.speed = 0.7;
                 base.w = 10; base.h = 10;
                 break;
             case ENEMY.DARKNUT:
@@ -249,11 +249,12 @@ const Enemies = {
     /** Move an enemy in a direction with wall collision */
     _moveInDir(e, dir, speed) {
         let dx = 0, dy = 0;
+        const scaled_speed = speed * 0.6;
         switch (dir) {
-            case DIR.UP:    dy = -speed; break;
-            case DIR.DOWN:  dy = speed; break;
-            case DIR.LEFT:  dx = -speed; break;
-            case DIR.RIGHT: dx = speed; break;
+            case DIR.UP:    dy = -scaled_speed * 0.3; break;
+            case DIR.DOWN:  dy = scaled_speed; break;
+            case DIR.LEFT:  dx = -scaled_speed; break;
+            case DIR.RIGHT: dx = scaled_speed; break;
         }
 
         const nx = e.x + dx;
