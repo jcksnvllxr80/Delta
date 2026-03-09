@@ -9,47 +9,73 @@
 const Music = {
     context: null,
     source: null,
+    buffers: {},
+    current: null,
 
-    /** initialize AudioContext and build buffer */
+    /** load audio file for track name (returns Promise-buffer) */
+    async _loadTrack(name) {
+        // map logical names to file paths in music/ folder
+        const map = {
+            title: 'music/intro.mp3',
+            overworld: 'music/overworld.mp3',
+            dungeon: 'music/dungeon.mp3',
+        };
+        const url = map[name] || map.overworld;
+        const resp = await fetch(url);
+        const arr = await resp.arrayBuffer();
+        return await this.context.decodeAudioData(arr);
+    },
+
+    /** initialize AudioContext */
     init() {
         if (this.context) return;
         this.context = new (window.AudioContext || window.webkitAudioContext)();
-        // build a small melody buffer
-        const sampleRate = this.context.sampleRate;
-        const duration = 4; // seconds
-        const buffer = this.context.createBuffer(1, sampleRate * duration, sampleRate);
-        const data = buffer.getChannelData(0);
-        // simple sequence of frequencies (notes) 
-        const notes = [220, 246, 261, 293, 329, 349, 392, 440];
-        for (let i = 0; i < data.length; i++) {
-            const t = i / sampleRate;
-            const noteIndex = Math.floor((t / duration) * notes.length) % notes.length;
-            const freq = notes[noteIndex];
-            data[i] = Math.sin(2 * Math.PI * freq * t) * 0.1;
-        }
-        this.buffer = buffer;
     },
 
-    /** start playback (looping) */
-    play() {
+    /** ensure a buffer exists for a track */
+    /** ensure a buffer exists for a track; caches promise so load only once */
+    async _ensure(name) {
+        if (!this.buffers[name]) {
+            // immediately store promise to avoid duplicate fetches
+            this.buffers[name] = this._loadTrack(name);
+        }
+        return await this.buffers[name];
+    },
+
+    /** play a named track, switching if necessary */
+    async play(name='overworld') {
         if (!this.context) this.init();
-        if (this.source) return; // already playing
+        // resume if suspended (autoplay policy)
+        if (this.context.state === 'suspended') {
+            try { await this.context.resume(); } catch(e) {}
+        }
+        // if already requested this track (playing or loading), do nothing
+        if (this.current === name) return;
+
+        // stop any existing source (will clear current via stop())
+        if (this.source) this.stop();
+        // mark as current immediately to block further calls
+        this.current = name;
+
+        const buf = await this._ensure(name);
+        // if track changed while loading, stop here
+        if (this.current !== name) return;
+
         this.source = this.context.createBufferSource();
-        this.source.buffer = this.buffer;
+        this.source.buffer = buf;
         this.source.loop = true;
         this.source.connect(this.context.destination);
         this.source.start();
     },
 
-    /** stop playback */
     stop() {
         if (this.source) {
             this.source.stop();
             this.source.disconnect();
             this.source = null;
+            this.current = null;
         }
     }
 };
 
-// make available globally
 window.Music = Music;

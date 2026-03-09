@@ -24,7 +24,8 @@ game/
 - **12 overworld screens** across mountains, forests, village, riverside, ruins, and a sacred grove
 - **1 complete dungeon** (5 rooms) with enemies, a key puzzle, a locked item room, and a boss fight
 - **Real-time combat** - sword attacks (Z/Space), bombs (X) as secondary item
-- **Background music** using Web Audio
+- **Background music** that changes with the title screen, overworld, and dungeon
+- **Sound effects** for sword swings and item pickups (customizable via `game/sfx/`)
 - **Screen transitions** with Zelda-style sliding animation
 - **4 enemy types** + 1 boss: Slime, Octorok (shoots projectiles), Bat, Darknut (chases), and a dragon boss
 - **Progression loop**: Explore overworld → Find dungeon → Get bombs → Defeat boss → Use bombs on cracked walls → Reach the Sacred Grove (victory)
@@ -42,7 +43,11 @@ game/
 
 To play Delta in your browser, you need to serve the files using a local web server. The easiest way is with Python:
 
-> Music starts automatically when the game begins; mute the browser tab if you prefer silence.
+> Music starts automatically when the game begins. Tracks will switch based on where you are (title/overworld/dungeon); mute the browser tab if you prefer silence.
+>
+> **Custom music:** put `intro.mp3`, `overworld.mp3`, and `dungeon.mp3` into the `game/music/` folder and they will be loaded automatically. You can also use OGG files if you modify `music.js` accordingly.
+>
+> **Sound effects:** drop `sword.mp3` and `pickup.mp3` into `game/sfx/`; the engine plays them when you attack or pick up items.
 
 1. Open a terminal and navigate to the `game` directory:
 

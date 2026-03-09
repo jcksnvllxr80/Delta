@@ -53,9 +53,9 @@ const Game = {
         Items.reset();
         Items.loadScreenItems();
 
-        // start music (user interaction may be required in some browsers)
+        // start overworld music (user interaction may be required in some browsers)
         if (window.Music) {
-            try { Music.play(); } catch(e) {}
+            Music.play('overworld').catch(() => {});
         }
 
         this.state = STATE.PLAYING;
@@ -112,7 +112,12 @@ const Game = {
 
     _updateTitle() {
         Renderer.drawTitleScreen(this.frame);
-        if (Input.isPressed('Enter') || Input.isPressed('KeyZ') || Input.isPressed('Space')) {
+        // play title music if not already active
+        if (window.Music && Music.current !== 'title') {
+            Music.play('title').catch(() => {});
+        }
+        if ((Input.isPressed('Enter') || Input.isPressed('KeyZ') || Input.isPressed('Space')) && window.Music) {
+            // start game (music already playing)
             this.startNewGame();
         }
     },
@@ -199,6 +204,7 @@ const Game = {
         const pickup = Items.checkPlayerPickup(Player);
         if (pickup) {
             Player.collectPickup(pickup);
+            if (window.SFX) SFX.play('pickup');
         }
 
         // Check player death
@@ -409,11 +415,13 @@ const Game = {
         Player.savedOverworldY = Player.y;
         this.transition.progress = 0;
         this.state = STATE.DUNGEON_ENTER;
+        if (window.Music) Music.play('dungeon').catch(() => {});
     },
 
     _exitDungeon() {
         this.transition.progress = 0;
         this.state = STATE.DUNGEON_EXIT;
+        if (window.Music) Music.play('overworld').catch(() => {});
     },
 
     _handleCave() {

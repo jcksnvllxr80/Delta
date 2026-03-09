@@ -90,6 +90,7 @@ const Player = {
             if (this.hasSword) {
                 this.state = 'attacking';
                 this.attackTimer = ATTACK_DURATION;
+                if (window.SFX) SFX.play('sword');
                 return null;
             }
         }
