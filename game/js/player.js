@@ -25,7 +25,7 @@ const Player = {
     knockDy: 0,
 
     // Inventory
-    hasSword: true,
+    hasSword: false, // obtain in village cave
     hasBombs: false,
     hasBossKey: false,
     keys: 0,

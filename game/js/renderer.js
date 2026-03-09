@@ -705,11 +705,12 @@ const Renderer = {
             this._drawText(ctx, cx - 40, cy + 90, 'Press ENTER', 1);
         }
 
-        // Controls
+        // Controls (centered vertically)
         ctx.fillStyle = '#666';
-        this._drawText(ctx, 20, CANVAS_H - 40, 'Arrows: Move', 1);
-        this._drawText(ctx, 20, CANVAS_H - 28, 'Z/Space: Sword', 1);
-        this._drawText(ctx, 20, CANVAS_H - 16, 'X: Use Item', 1);
+        const controlsY = cy + 110; // just below the start prompt
+        this._drawText(ctx, cx - 60, controlsY, 'Arrows: Move', 1);
+        this._drawText(ctx, cx - 60, controlsY + 14, 'Z/Space: Sword', 1);
+        this._drawText(ctx, cx - 60, controlsY + 28, 'X: Use Item', 1);
     },
 
     drawGameOver(frame) {
@@ -761,9 +762,10 @@ const Renderer = {
         const ctx = this.ctx;
         const lines = text.split('\n');
         const boxH = 20 + lines.length * 12;
-        const boxW = 180;
+        const boxW = 200; // slightly wider for longer messages
         const boxX = (CANVAS_W - boxW) / 2;
-        const boxY = CANVAS_H - boxH - 20;
+        // center vertically instead of bottom
+        const boxY = (CANVAS_H - boxH) / 2;
 
         // Box
         ctx.fillStyle = '#111';

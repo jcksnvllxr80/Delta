@@ -413,9 +413,14 @@ const Game = {
 
     _handleCave() {
         const key = World.screenX + ',' + World.screenY;
-        // Village cave (1,1) - gives hint
+        // Village cave (1,1) - give sword once
         if (key === '1,1') {
-            this.showMessage("It's dangerous to\ngo alone! Take a\nsword and explore.");
+            if (!Player.hasSword) {
+                Player.hasSword = true;
+                this.showMessage('You found a sword!\nUse it to fight enemies.');
+            } else {
+                this.showMessage('The cave is empty.');
+            }
         }
         // Mountain cave (0,0) - gives heart container
         else if (key === '0,0') {

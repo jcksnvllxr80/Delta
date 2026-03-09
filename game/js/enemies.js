@@ -52,7 +52,7 @@ const Enemies = {
                 break;
             case ENEMY.BAT:
                 base.hp = 1;
-                base.speed = 0.7;
+                base.speed = 0.4; // slower than before
                 base.w = 10; base.h = 10;
                 break;
             case ENEMY.DARKNUT:
