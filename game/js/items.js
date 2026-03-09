@@ -74,7 +74,10 @@ const Items = {
         // Update pickups (bobbing animation)
         for (const p of this.pickups) {
             p.timer++;
-            if (p.timer > 600) p.collected = true; // Despawn after 10 sec
+            // keys should never disappear; other pickups despawn after 10 sec
+            if ((p.type !== 'key' && p.type !== 'boss_key') && p.timer > 600) {
+                p.collected = true; // Despawn
+            }
         }
 
         // Update bombs

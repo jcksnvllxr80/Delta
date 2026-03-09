@@ -789,7 +789,7 @@ const Renderer = {
     /** Draw text using canvas fillText (larger monospace, with outline for legibility) */
     _drawText(ctx, x, y, text, scale) {
         ctx.save();
-        const baseSize = 14; // Increased from 6 for better readability
+        const baseSize = 10; // Reduced for better balance at higher resolution
         ctx.font = (baseSize * (scale || 1)) + 'px monospace';
         ctx.textBaseline = 'top';
         ctx.lineWidth = 3;

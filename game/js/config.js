@@ -3,7 +3,7 @@
    =================================================== */
 
 // ---- Display ----
-const TILE = 16;
+const TILE = 32;
 const COLS = 16;
 const ROWS = 11;
 const HUD_H = 48;

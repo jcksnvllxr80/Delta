@@ -139,8 +139,8 @@ const Enemies = {
                 Items.spawnProjectile(
                     e.x + e.w / 2 - 3,
                     e.y + e.h / 2 - 3,
-                    (dx / dist) * 1.5,
-                    (dy / dist) * 1.5,
+                    (dx / dist) * 0.9,
+                    (dy / dist) * 0.9,
                     true
                 );
             }
@@ -219,8 +219,8 @@ const Enemies = {
                     Items.spawnProjectile(
                         e.x + e.w / 2 - 3,
                         e.y + e.h / 2 - 3,
-                        Math.cos(angle) * 1.2,
-                        Math.sin(angle) * 1.2,
+                        Math.cos(angle) * 0.8,
+                        Math.sin(angle) * 0.8,
                         true
                     );
                 }
