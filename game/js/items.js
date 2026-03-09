@@ -36,6 +36,16 @@ const Items = {
             // Chest items are collected by interacting with the chest tile
             // We store them as metadata, not as pickups
         }
+
+        // boss key spawn hidden in item room (2,1) behind locked door
+        if (World.inDungeon && World.screenX === 2 && World.screenY === 1 && !Player.hasBossKey) {
+            // the locked door is at grid pos (??) we placed l at col5,row5? spawn behind it
+            const dropX = 8 * TILE; // roughly centre near chest
+            const dropY = 5 * TILE + 4;
+            if (!this.pickups.some(p => p.type === 'boss_key')) {
+                this.spawnPickup(dropX, dropY, 'boss_key');
+            }
+        }
     },
 
     /** Spawn a pickup at a pixel position */

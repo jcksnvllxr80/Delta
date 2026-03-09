@@ -380,7 +380,7 @@ const World = {
             '#######  #######',
         ]);
 
-        // (0,1) West Room - enemies, key drop. Exit: E
+        // (0,1) West Room - enemies and small key spawn. Exit: E
         this.dungeonData['0,1'] = p([
             '################',
             '################',
@@ -395,14 +395,14 @@ const World = {
             '################',
         ]);
 
-        // (2,1) Item Room - chest with bombs. Exit: W
+        // (2,1) Item Room - chest with bombs behind a locked door. Exit: W
         this.dungeonData['2,1'] = p([
             '################',
             '################',
             '##            ##',
             '##            ##',
             'o             ##',
-            'o      $      ##',
+            'o     l$      ##',
             'o             ##',
             '##            ##',
             '##            ##',
